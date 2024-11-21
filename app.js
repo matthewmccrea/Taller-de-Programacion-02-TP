@@ -4,6 +4,7 @@ import userRouter from "./routes/user.js";
 import buyerRouter from "./routes/buyers.js";
 import productRouter from "./routes/products.js";
 import sellerRouter from "./routes/sellers.js";
+import saleRouter from "./routes/sale.js";
 
 //TODO llevarlo a archivo de config
 const PORT = 3000;
@@ -15,6 +16,7 @@ app.use("/api/users", userRouter);
 app.use("/api/buyers", buyerRouter);
 app.use("/api/products", productRouter);
 app.use("/api/sellers", sellerRouter);
+app.use("/api/sale", saleRouter);
 
 
 app.listen(PORT, () => {

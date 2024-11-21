@@ -1,28 +1,28 @@
 import { ObjectId } from "mongodb";
 import getConnection from "./connection.js";
 
-export async function getProducts() {
+export async function getSales() {
     console.log("Entrando en el método getProducts");
     const clientmongo = await getConnection();
   
-    const products = await clientmongo
+    const sales = await clientmongo
       .db("sample_tp2")
-      .collection("products")
+      .collection("sale")
       .find()
       .toArray();
-    return products;
+    return sales;
   }
 
 
 
-  export async function getProduct(id) {
+  export async function getSale(id) {
 
     const clientmongo = await getConnection();
   
-    const product = await clientmongo
+    const sale = await clientmongo
       .db("sample_tp2")
-      .collection("products")
+      .collection("sale")
       .findOne({ _id: new ObjectId(id) });
   
-    return product;
+    return sale;
   }
