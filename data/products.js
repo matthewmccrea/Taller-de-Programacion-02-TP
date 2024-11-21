@@ -12,9 +12,6 @@ export async function getProducts() {
       .toArray();
     return products;
   }
-
-
-
   export async function getProduct(id) {
 
     const clientmongo = await getConnection();
@@ -25,4 +22,20 @@ export async function getProducts() {
       .findOne({ _id: new ObjectId(id) });
   
     return product;
+  }
+
+  export async function addProduct(product) {
+    console.log("Agregando un product")
+    for (const key in product) {
+      if (product.hasOwnProperty(key)) {
+          console.log(`${key}: ${product[key]}`);
+      }
+  }
+    const clientmongo = await getConnection();
+  
+    const result = await clientmongo
+      .db("sample_tp2")
+      .collection("products")
+      .insertOne(product);
+    return result;
   }
