@@ -3,6 +3,17 @@ import { addUser, findByCredentials, generateAuthToken } from "../data/user.js";
 
 const router = express.Router();
 
+router.post("/deleteUser", async (req, res) => {
+  const result = await deleteUser(req.body);
+
+  try {
+    
+  } catch (error) {
+    
+  }
+  res.send(result);
+});
+
 router.post("/", async (req, res) => {
   const result = await addUser(req.body);
   res.send(result);

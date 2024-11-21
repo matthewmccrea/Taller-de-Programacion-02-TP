@@ -2,6 +2,9 @@ import getConnection from "./connection.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+
+
+
 export async function addUser(user) {
   user.password = await bcryptjs.hash(user.password, 10);
   const clientMongo = await getConnection();
