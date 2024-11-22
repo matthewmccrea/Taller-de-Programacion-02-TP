@@ -11,13 +11,14 @@ const PORT = 3000;
 
 const app = express();
 app.use(express.json());
+
+
 app.use("/api/inventors", inventorRouter);
 app.use("/api/users", userRouter);
 app.use("/api/buyers", buyerRouter);
 app.use("/api/products", productRouter);
 app.use("/api/sellers", sellerRouter);
 app.use("/api/sale", saleRouter);
-
 
 app.listen(PORT, () => {
   console.log("Servidor Web Express en el puerto: ", PORT);

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LISTA DE COMPRADORES</title>
+  <style>
+        @import url(https://fonts.googleapis.com/css?family=Noto+Sans);
+    body {
+  font-family: 'Noto Sans', sans-serif;
+  margin: 20px;
+  background-color: #b8cecf; /* Fondo similar al del formulario */
+}
+
+h1 {
+  font-size: 39px;
+  text-align: center;
+  color: #ab4493; /* Mismo color que el título del formulario */
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+.compradores-datos {
+  background-color: #f4f4f4;
+}
+
+#button-create-buyer, #button-edit-buyer, #button-delete-buyer {
+  padding: 10px 20px;
+  
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+#button-create-buyer {
+  background-color: #4CAF50; /* Mismo color de fondo que el formulario */
+}
+
+#button-create-buyer:hover {
+  background-color: #45a049;
+}
+
+#button-create-buyer:active {
+  background-color: #3e8e41;
+}
+
+#button-edit-buyer {
+  background-color: #2b36da; /* Color similar al formulario */
+}
+
+#button-edit-buyer:hover {
+  background-color: #2b36da;
+}
+
+#button-edit-buyer:active {
+  background-color: #2b36da;
+}
+
+#button-delete-buyer {
+  background-color: #b83018; /* Color similar al formulario */
+}
+
+#button-delete-buyer:hover {
+  background-color: #b83018;
+}
+
+#button-delete-buyer:active {
+  background-color: #b83018;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Color alternativo para filas */
+}
+
+tbody tr {
+  background-color: whitesmoke;/* Resaltado de filas al pasar el ratón */
+}
+.titulos{
+
+    background-color: whitesmoke;
+}
+
+  </style>
+</head>
+<body>
+  <h1>LISTA DE COMPRADORES</h1>
+
+  <button id="button-create-buyer" class="button">
+    CREAR COMPRADOR
+  </button>
+  
+  <table>
+    <thead>
+      <tr>
+        <th class="titulos">ID</th>
+        <th class="titulos">NOMBRE</th>
+        <th class="titulos">EMAIL</th>
+        <th class="titulos">TELEFONO</th>
+        <th class="titulos">DIRECCION</th>
+        <th class="titulos">SALDO</th>
+        <th class="titulos">ACCIONES</th>
+      </tr>
+    </thead>
+    <tbody id="buyersTableBody">
+
+    </tbody>
+  </table>
+
+  <script>
+
+    async function fetchBuyers() {
+      try {
+        const response = await fetch('/api/buyers');
+        if (!response.ok) throw new Error("Failed to fetch buyers");
+
+        const buyers = await response.json();
+        const tableBody = document.getElementById("buyersTableBody");
+
+        tableBody.innerHTML = "";
+
+
+        buyers.forEach(buyer => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td class="compradores-datos">${buyer._id}</td>
+            <td class="compradores-datos">${buyer.nombre}</td>
+            <td class="compradores-datos">${buyer.email}</td>
+            <td class="compradores-datos">${buyer.telefono}</td>
+            <td class="compradores-datos">${buyer.direccion}</td>
+            <td class="compradores-datos">${buyer.saldo}</td>
+            <td>
+              <button class="compradores-datos" id="button-edit-buyer" onclick="viewBuyer('${buyer._id}')">EDITAR</button>
+              <button class="compradores-datos" id="button-delete-buyer" onclick="deleteBuyer('${buyer._id}')">ELIMINAR</button>
+            </td>
+          `;
+          tableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error("Error fetching buyers:", error);
+      }
+    }
+
+    // Función para ver detalles del buyer
+    document.getElementById("button-create-buyer").addEventListener("click", function() {
+    // Redirigir a la URL deseada cuando se hace clic en el botón
+    window.location.href = "/api/buyers/createBuyer";
+  });
+
+    // Función para eliminar un buyer
+    async function deleteBuyer(id) {
+        console.log("El id es: "+id)
+      if (confirm("Are you sure you want to delete this buyer?")) {
+        try {
+          const response = await fetch(`/api/buyers/${id}`, { method: "DELETE" });
+          if (response.ok) {
+            alert("Buyer deleted successfully");
+            fetchBuyers(); // Actualizar la lista
+          } else {
+            alert("Failed to delete buyer");
+          }
+        } catch (error) {
+          console.error("Error deleting buyer:", error);
+        }
+      }
+    }
+
+    // Cargar la lista de buyers al cargar la página
+    fetchBuyers();
+  </script>
+</body>
+</html>

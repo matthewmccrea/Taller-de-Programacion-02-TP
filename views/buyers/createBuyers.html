@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cliente</title>
+  <style>
+    @import url(https://fonts.googleapis.com/css?family=Noto+Sans);
+
+    body {
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center; /* Centra horizontalmente */
+      align-items: center; /* Centra verticalmente */
+      font-family: 'Noto Sans', sans-serif;
+      background-color: #b8cecf;
+    }
+
+    .contact_form {
+      width: 460px;
+      border-radius: 10px;
+      padding: 30px;
+      background-color: #fbfbfb;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center; /* Centra texto en el formulario */
+    }
+
+    #form-post {
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centra los elementos del formulario */
+    }
+
+    input {
+      background-color: #fbfbfb;
+      width: 100%;
+      max-width: 408px;
+      border-radius: 5px;
+      border: 1px solid #ab4493;
+      margin: 10px 0;
+      padding: 10px;
+    }
+
+    
+
+    label {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 5px;
+    }
+
+    button {
+      height: 45px;
+      background-color: #ab4493;
+      border: none;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 420px;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin: 10px 0;
+    }
+
+    h1 {
+      font-size: 39px;
+      text-align: center;
+      color: #ab4493;
+      margin-bottom: 20px;
+    }
+
+    p.aviso {
+      font-size: 13px;
+      color: #0e0e0e;
+      text-align: center;
+    }
+
+    .obligatorio {
+      color: #ab4493;
+    }
+  </style>
+</head>
+<body>
+  <div class="contact_form">
+    <h1>Creacion de Cliente</h1>
+    <form action="" method="post" id="form-post">
+      <p>
+        <label for="nombre">Nombre <span class="obligatorio">*</span></label>
+        <input type="text" name="introducir_nombre" id="nombre" required placeholder="Escribe tu nombre">
+      </p>
+      <p>
+        <label for="email">Email <span class="obligatorio">*</span></label>
+        <input type="email" name="introducir_email" id="email" required placeholder="Escribe tu Email">
+      </p>
+      <p>
+        <label for="telefono">Teléfono</label>
+        <input type="tel" name="introducir_telefono" id="telefono" placeholder="Escribe tu teléfono">
+      </p>
+      <p>
+        <label for="nombre">Direccion</label>
+        <input type="text" name="introducir_website" id="website" placeholder="Escribe la URL de tu web">
+      </p>
+
+      <p>
+        <label for="saldo">Saldo <span class="obligatorio">*</span></label>
+        <input type="number" name="introducir_saldo" id="saldo" required placeholder="Ingrese el saldo" step="0.1">
+        
+        </p>
+        
+        <button type="submit">Guardar</button>
+      <p class="aviso"><span class="obligatorio">*</span> Los campos son obligatorios.</p>
+    </form>
+  </div>
+</body>
+</html>

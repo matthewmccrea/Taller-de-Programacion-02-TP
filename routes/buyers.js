@@ -1,13 +1,25 @@
 import express from "express";
+import path from "path";
 import { addBuyer, getBuyers, getBuyer,deleteBuyer} from "../data/buyers.js";
 
 
 const router = express.Router();
+const __dirname = path.resolve();
 
   //EDNPOINT PARA OBTENER TODOS LOS BUYERS
 router.get("/", async (req, res) => {
     const buyers = await getBuyers();
     res.json(buyers);
+  });
+
+
+  //ENDPOINT DE TESTING QUE DEVUELVE UN HTML
+  router.get("/list", (req, res) => {
+    res.sendFile(path.join(__dirname, "views", "buyers", "listBuyers.html"));
+  });
+
+  router.get("/createBuyer", (req, res) => {
+    res.sendFile(path.join(__dirname, "views", "buyers", "createBuyers.html"));
   });
 
   //ENDPOINT PARA OBTENER UN BUYER POR ID
