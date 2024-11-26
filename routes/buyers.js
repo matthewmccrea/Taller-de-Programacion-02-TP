@@ -29,9 +29,11 @@ router.get("/", async (req, res) => {
   });
 
   //ENDPOINT PARA AGREGAR BUYERS
-  router.post("/", async (req, res) => {
+  router.post("/createBuyer", async (req, res) => {
+    console.log("Datos recibidos en req.body:", req.body);
     const buyer = await addBuyer(req.body);
-    res.json(buyer);
+    
+    res.sendFile(path.join(__dirname, "views", "buyers", "listBuyers.html"));
   });
 
   //ENDPOINT PARA ELIMINAR BUYERS

@@ -26,12 +26,14 @@ export async function getBuyers() {
   }
 
   export async function addBuyer(buyer) {
-    console.log("Agregando un buyer")
-    for (const key in buyer) {
-      if (buyer.hasOwnProperty(key)) {
-          console.log(`${key}: ${buyer[key]}`);
-      }
+    if (!buyer || Object.keys(buyer).length === 0) {
+      console.error("Error: El objeto buyer está vacío o es undefined");
+      return; // O maneja el error de alguna otra forma
   }
+
+  console.log("Agregando un buyer", buyer);
+    
+   
     const clientmongo = await getConnection();
   
     const result = await clientmongo
@@ -39,6 +41,7 @@ export async function getBuyers() {
       .collection("buyers")
       .insertOne(buyer);
     return result;
+    console.log("Buyer: "+buyer._id)
   }
   
 

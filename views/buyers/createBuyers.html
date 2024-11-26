@@ -86,27 +86,27 @@
 <body>
   <div class="contact_form">
     <h1>Creacion de Cliente</h1>
-    <form action="" method="post" id="form-post">
+    <form action="/api/buyers/createBuyer" method="post" id="form-post">
       <p>
         <label for="nombre">Nombre <span class="obligatorio">*</span></label>
-        <input type="text" name="introducir_nombre" id="nombre" required placeholder="Escribe tu nombre">
+        <input type="text" name="nombre" id="nombre" required placeholder="Escribe tu nombre">
       </p>
       <p>
         <label for="email">Email <span class="obligatorio">*</span></label>
-        <input type="email" name="introducir_email" id="email" required placeholder="Escribe tu Email">
+        <input type="email" name="email" id="email" required placeholder="Escribe tu Email">
       </p>
       <p>
         <label for="telefono">Teléfono</label>
-        <input type="tel" name="introducir_telefono" id="telefono" placeholder="Escribe tu teléfono">
+        <input type="tel" name="telefono" id="telefono" placeholder="Escribe tu teléfono">
       </p>
       <p>
         <label for="nombre">Direccion</label>
-        <input type="text" name="introducir_website" id="website" placeholder="Escribe la URL de tu web">
+        <input type="text" name="direccion" id="website" placeholder="Escribe tu direccion">
       </p>
 
       <p>
         <label for="saldo">Saldo <span class="obligatorio">*</span></label>
-        <input type="number" name="introducir_saldo" id="saldo" required placeholder="Ingrese el saldo" step="0.1">
+        <input type="number" name="saldo" id="saldo" required placeholder="Ingrese el saldo" step="0.1">
         
         </p>
         
