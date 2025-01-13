@@ -147,6 +147,7 @@ tbody tr {
             <td>
               <button class="compradores-datos" id="button-edit-buyer" onclick="viewBuyer('${buyer._id}')">EDITAR</button>
               <button class="compradores-datos" id="button-delete-buyer" onclick="deleteBuyer('${buyer._id}')">ELIMINAR</button>
+              <button class="compradores-datos" id="button-buy-products" onclick="productList()">ELIMINAR</button>
             </td>
           `;
           tableBody.appendChild(row);
@@ -156,13 +157,14 @@ tbody tr {
       }
     }
 
-    // Función para ver detalles del buyer
+    document.getElementById("button-buy-products").addEventListener("click", function() {
+    window.location.href = "/api/products/list";
+  });
+
     document.getElementById("button-create-buyer").addEventListener("click", function() {
-    // Redirigir a la URL deseada cuando se hace clic en el botón
     window.location.href = "/api/buyers/createBuyer";
   });
 
-    // Función para eliminar un buyer
     async function deleteBuyer(id) {
         console.log("El id es: "+id)
       if (confirm("Are you sure you want to delete this buyer?")) {
@@ -180,7 +182,6 @@ tbody tr {
       }
     }
 
-    // Cargar la lista de buyers al cargar la página
     fetchBuyers();
   </script>
 </body>

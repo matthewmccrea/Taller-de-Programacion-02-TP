@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import { addBuyer, getBuyers, getBuyer,deleteBuyer} from "../data/buyers.js";
+import { auth } from "../middleware/auth.js";
 
 
 const router = express.Router();
@@ -13,8 +14,11 @@ router.get("/", async (req, res) => {
   });
 
 
+ 
+
   //ENDPOINT DE TESTING QUE DEVUELVE UN HTML
-  router.get("/list", (req, res) => {
+  router.get("/list",auth,async(req, res) => {
+
     res.sendFile(path.join(__dirname, "views", "buyers", "listBuyers.html"));
   });
 

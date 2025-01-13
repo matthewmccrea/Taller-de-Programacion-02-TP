@@ -1,7 +1,18 @@
 import express from "express";
 import { getProducts, getProduct, addProduct } from "../data/products.js";
+import { auth } from "../middleware/auth.js";
+import path from "path";
 
 const router = express.Router();
+const __dirname = path.resolve();
+
+
+router.get("/list",auth,async(req, res) => {
+
+  res.sendFile(path.join(__dirname, "views", "products", "listProducts.html"));
+});
+
+
 
 //ENDPOINT PARA OBTENER TODOS LOS PRODUCTOS
 router.get("/", async (req, res) => {
