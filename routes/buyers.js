@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
  
 
   //ENDPOINT DE TESTING QUE DEVUELVE UN HTML
-  router.get("/list",auth,async(req, res) => {
+  router.get("/list",async(req, res) => {
 
     res.sendFile(path.join(__dirname, "views", "buyers", "listBuyers.html"));
   });

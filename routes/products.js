@@ -7,7 +7,7 @@ const router = express.Router();
 const __dirname = path.resolve();
 
 
-router.get("/list",auth,async(req, res) => {
+router.get("/list",async(req, res) => {
 
   res.sendFile(path.join(__dirname, "views", "products", "listProducts.html"));
 });

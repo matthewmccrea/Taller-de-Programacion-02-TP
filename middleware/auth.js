@@ -1,17 +1,28 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 export async function auth(req, res, next) {
   try {
-    console.log('Solicitud completa:', req); // Imprime la solicitud completa
+    console.log("Headers:", req.headers);
+    console.log("Cookies:", req.cookies);
 
-    console.log('Token desde la cabecera Authorization:', req.header('Authorization'));
-    console.log('Token desde Cookies:', req.header('Authorization'));
-    const token = req.cookies.authToken || req.header("Authorization");
-    console.log("El token es: "+token);
+    const authHeader = req.header("Authorization");
+    const token = req.cookies.authToken || (authHeader && authHeader.split(" ")[1]);
+
+    if (!token) {
+      return res.status(401).send("Token is required");
+    }
 
     jwt.verify(token, process.env.SECRET);
     next();
   } catch (error) {
-    res.status(401).send(error.message);
+    console.error("Error in auth middleware:", error.message);
+
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).send("Token has expired");
+    } else if (error.name === "JsonWebTokenError") {
+      return res.status(401).send("Invalid token");
+    } else {
+      return res.status(500).send("Authentication error");
+    }
   }
 }
