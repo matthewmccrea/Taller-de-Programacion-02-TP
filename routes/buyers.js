@@ -18,7 +18,8 @@ router.get("/", async (req, res) => {
 
   //ENDPOINT DE TESTING QUE DEVUELVE UN HTML
   router.get("/list",async(req, res) => {
-
+    
+    
     res.sendFile(path.join(__dirname, "views", "buyers", "listBuyers.html"));
   });
 
@@ -34,15 +35,13 @@ router.get("/", async (req, res) => {
 
   //ENDPOINT PARA AGREGAR BUYERS
   router.post("/createBuyer", async (req, res) => {
-    console.log("Datos recibidos en req.body:", req.body);
+
     const buyer = await addBuyer(req.body);
-    
     res.sendFile(path.join(__dirname, "views", "buyers", "listBuyers.html"));
   });
 
   //ENDPOINT PARA ELIMINAR BUYERS
   router.delete("/:id", async (req, res) => {
-    console.log("Ingresando en el metodo delete")
     const buyer = await deleteBuyer(req.params.id)
     res.send(buyer);
   });

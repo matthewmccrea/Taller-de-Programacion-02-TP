@@ -2,7 +2,6 @@ import { ObjectId } from "mongodb";
 import getConnection from "./connection.js";
 
 export async function getSales() {
-    console.log("Entrando en el método getProducts");
     const clientmongo = await getConnection();
   
     const sales = await clientmongo

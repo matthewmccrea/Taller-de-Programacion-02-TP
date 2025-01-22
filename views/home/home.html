@@ -65,6 +65,10 @@
       background-color: blueviolet;
       color: white;
     }
+    .button-sellers {
+      background-color: rgb(43, 198, 226);
+      color: white;
+    }
 
     .carousel {
       
@@ -145,8 +149,8 @@
     <div class="options">
       <button class="button button-create" onclick="navigateTo('buyers/list')">Compradores</button>
       <button class="button button-view" onclick="navigateTo('products/list')">Productos</button>
-      <button class="button button-delete" onclick="navigateTo('reports')">Reportes</button>
-      <button class="button button-playground" onclick="navigateTo('playground/list')">Playground</button>
+      <button class="button button-playground" style="display: none;" onclick="navigateTo('playground/list')">Playground</button>
+      <button class="button button-sellers" onclick="navigateTo('sellers/list')">Vendedores</button>
 
 
     </div>
@@ -155,12 +159,17 @@
     </div>
   </div>
 
-  <script>
 
-    function navigateTo(page) {
-      window.location.href = `/api/${page}`;
-    }
-  </script>
+
+
+
+
+ 
+
+   
+
+    
+  
   <script>
 
     async function fetchData() {
@@ -184,10 +193,7 @@
     images.forEach(image => {
       const card = document.createElement("div");
       card.className = "carousel-item";
-      card.innerHTML = `
-        <img src="${image.src}" alt="${image.alt}" style="width:100%; border-radius: 10px;">
-        <h3>${image.alt}</h3>
-      `;
+      card.innerHTML = `<img src="${image.src}" alt="${image.alt}" style="width:100%; border-radius: 10px;"><h3>${image.alt}</h3>`;
 
       card.querySelector('img').addEventListener('click', () => viewItem(image.src, image.alt));
       carousel.appendChild(card);
@@ -254,6 +260,56 @@ fetchData();
     }
 
     fetchData('buyers');
+
+
+
+
+
+    function navigateTo(page) {
+  const token = localStorage.getItem("authToken"); // Recupera el token del localStorage
+
+  if (!token) {
+    alert("No se encontró un token. Por favor, inicia sesión nuevamente.");
+    return;
+  }
+
+  fetch(`/api/${page}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Token": token, 
+    },
+  })
+    .then(response => {
+      if (response.ok) {
+        // Redirigir a la lista de productos si la respuesta es exitosa
+        if (page=="buyers/list") {
+          window.location.href = `/api/buyers/list?token=${token}`;  
+        }
+        if (page=="products/list") {
+          window.location.href = `/api/products/list?token=${token}`;  
+
+        }
+        if (page=="sellers/list") {
+          window.location.href = `/api/sellers/list?token=${token}`;  
+
+        }
+        
+      } else {
+        // Si la respuesta no es exitosa, muestra el mensaje de error
+        return response.json().then(data => {
+          alert(data.message || "Error desconocido");
+        });
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error.message);
+      alert(error.message); 
+    });
+}
+
+
+
   </script>
 </body>
 </html>

@@ -1,0 +1,129 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= product ? 'Editar Producto' : 'Crear Producto' %></title>
+  <style>
+   
+    
+    @import url(https://fonts.googleapis.com/css?family=Noto+Sans);
+
+    body {
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Noto Sans', sans-serif;
+      background-color: #b8cecf;
+    }
+
+    .contact_form {
+      width: 460px;
+      border-radius: 10px;
+      padding: 30px;
+      background-color: #fbfbfb;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    #form-post {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    input {
+      background-color: #fbfbfb;
+      width: 100%;
+      max-width: 408px;
+      border-radius: 5px;
+      border: 1px solid #ab4493;
+      margin: 10px 0;
+      padding: 10px;
+    }
+
+    label {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 5px;
+    }
+
+    button {
+      height: 45px;
+      background-color: #ab4493;
+      border: none;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 420px;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin: 10px 0;
+    }
+
+    h1 {
+      font-size: 39px;
+      text-align: center;
+      color: #ab4493;
+      margin-bottom: 20px;
+    }
+
+    p.aviso {
+      font-size: 13px;
+      color: #0e0e0e;
+      text-align: center;
+    }
+
+    .obligatorio {
+      color: #ab4493;
+    }
+  </style>
+
+</head>
+<body>
+  <div class="contact_form">
+    <h1><%= product ? 'Editar Producto' : 'Crear Producto' %></h1>
+    <form action="/api/products/editProduct" method="post" id="form-post">
+      
+      <% if (product) { %>
+        <!-- Campo oculto para enviar el _id del producto -->
+        <input type="hidden" name="_id" value="<%= product._id %>">  <!-- Se pasa como cadena -->
+      <% } %>
+
+      <p>
+        <label for="nombre">Nombre <span class="obligatorio">*</span></label>
+        <input type="text" name="nombre" id="nombre" required placeholder="Escribe el nombre del producto" value="<%= product ? product.nombre : '' %>">
+      </p>
+
+      <p>
+        <label for="descripcion">Descripción <span class="obligatorio">*</span></label>
+        <input type="text" name="descripcion" id="descripcion" required placeholder="Escribe la descripción" value="<%= product ? product.descripcion : '' %>">
+      </p>
+
+      <p>
+        <label for="precio">Precio <span class="obligatorio">*</span></label>
+        <input type="number" name="precio" id="precio" required placeholder="Escribe el precio" value="<%= product ? product.precio : '' %>">
+      </p>
+
+      <p>
+        <label for="categoria">Categoría</label>
+        <input type="text" name="categoria" id="categoria" placeholder="Escribe la categoría" value="<%= product ? product.categoria : '' %>">
+      </p>
+
+      <p>
+        <label for="imagenes">Imagen</label>
+        <input type="text" name="imagenes" id="imagenes" placeholder="Ruta de la imagen" value="<%= product ? product.imagenes : '' %>">
+      </p>
+
+      <button type="submit"><%= product ? 'Actualizar Producto' : 'Crear Producto' %></button>
+    </form>
+  </div>
+</body>
+
+</html>

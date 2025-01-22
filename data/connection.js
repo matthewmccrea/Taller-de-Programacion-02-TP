@@ -19,7 +19,6 @@ export default async function getConnection() {
 
       gfs.collection('fs'); 
     } catch (error) {
-      console.log(error.message);
     }
   }
   return instance;

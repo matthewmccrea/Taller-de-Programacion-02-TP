@@ -24,14 +24,9 @@ router.post("/", async (req, res) => {
 //Login con redirect a home
 router.post("/login", async (req, res) => {
   try {
-    console.log("Dentro del login de User");
-    console.log("email", req.body.email);
-    console.log("password", req.body.password);
-
-    const user = await findByCredentials(req.body.email, req.body.password);
-    console.log(user);
+    const user = await findByCredentials(req.body.email, req.body.password);    
     const token = generateAuthToken(user);
-    console.log("El token generado para el usuario es: " + token);
+
 
 
     res.json({
@@ -39,7 +34,10 @@ router.post("/login", async (req, res) => {
       redirectUrl: `/api/home?token=${token}`,
     });
   } catch (error) {
-    res.status(401).send(error.message);
+    res.status(401).json({
+      message: "Credenciales inválidas. Intente nuevamente.",
+      redirectUrl: "/login",
+    });
   }
 });
 

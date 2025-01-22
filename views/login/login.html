@@ -80,7 +80,9 @@
 </head>
 <body>
   <div class="login_form">
+
     <h1>Login</h1>
+    <div id="error-message" style="display: none; color: red; margin-bottom: 10px;"> Credenciales invalidas</div>
     <form action="/api/users/login" method="post" id="form-login">
       <div>
         <label for="email">Email <span class="obligatorio">*</span></label>
@@ -113,7 +115,12 @@
       })
         .then((response) => {
           if (!response.ok) {
-            throw new Error("Login fallido");
+            return response.json().then((data) => {
+              const errorContainer = document.getElementById("error-message");
+              errorContainer.textContent = data.message || "Error en el login"; // Actualiza el mensaje de error
+              errorContainer.style.display = "block"; // Muestra el div en caso de error
+              throw new Error(data.message || "Error en el login");
+            });
           }
           return response.json();
         })
@@ -123,14 +130,14 @@
             localStorage.setItem("authToken", data.token);
   
             // Redirigimos a la página home con el token en la URL
-            window.location.href = `/api/home?token=${data.token}`;
-          } else {
-            throw new Error("No se recibió un token válido");
+            window.location.href = data.redirectUrl;
           }
         })
-        .catch((error) => console.error("Error al hacer login:", error));
+        .catch((error) => {
+        });
     });
   </script>
+  
   
   
   

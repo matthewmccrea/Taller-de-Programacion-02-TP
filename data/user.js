@@ -23,13 +23,7 @@ export async function findByCredentials(email, password) {
     .collection("users")
     .findOne({ email: email });
 
-    console.log("Usuario:", user);
 
-    // Iterar sobre las propiedades y valores del objeto 'user'
-    //Object.entries(user).forEach(([key, value]) => {
-    //  console.log(key + ": " + value);
-    //});
-    
   const isMatch = await bcryptjs.compare(password, user.password);
   if (!isMatch) {
     throw new Error("Credenciales no validas");

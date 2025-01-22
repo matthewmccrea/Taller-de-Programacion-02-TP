@@ -9,13 +9,13 @@
     body {
   font-family: 'Noto Sans', sans-serif;
   margin: 20px;
-  background-color: #b8cecf; /* Fondo similar al del formulario */
+  background-color: #b8cecf; 
 }
 
 h1 {
   font-size: 39px;
   text-align: center;
-  color: #ab4493; /* Mismo color que el título del formulario */
+  color: #ab4493; 
   margin-bottom: 20px;
 }
 
@@ -49,7 +49,7 @@ th, td {
 }
 
 #button-create-buyer {
-  background-color: #4CAF50; /* Mismo color de fondo que el formulario */
+  background-color: #4CAF50; 
 }
 
 #button-create-buyer:hover {
@@ -61,7 +61,7 @@ th, td {
 }
 
 #button-edit-buyer {
-  background-color: #2b36da; /* Color similar al formulario */
+  background-color: #2b36da;
 }
 
 #button-edit-buyer:hover {
@@ -73,7 +73,7 @@ th, td {
 }
 
 #button-delete-buyer {
-  background-color: #b83018; /* Color similar al formulario */
+  background-color: #b83018; 
 }
 
 #button-delete-buyer:hover {
@@ -85,11 +85,11 @@ th, td {
 }
 
 tbody tr:nth-child(even) {
-  background-color: #f9f9f9; /* Color alternativo para filas */
+  background-color: #f9f9f9;
 }
 
 tbody tr {
-  background-color: whitesmoke;/* Resaltado de filas al pasar el ratón */
+  background-color: whitesmoke;
 }
 .titulos{
 
@@ -114,6 +114,7 @@ tbody tr {
         <th class="titulos">TELEFONO</th>
         <th class="titulos">DIRECCION</th>
         <th class="titulos">SALDO</th>
+        <th class="titulos">PRODUCTOS</th>
         <th class="titulos">ACCIONES</th>
       </tr>
     </thead>
@@ -124,42 +125,57 @@ tbody tr {
 
   <script>
 
-    async function fetchBuyers() {
-      try {
-        const response = await fetch('/api/buyers');
-        if (!response.ok) throw new Error("Failed to fetch buyers");
-
-        const buyers = await response.json();
-        const tableBody = document.getElementById("buyersTableBody");
-
-        tableBody.innerHTML = "";
-
-
-        buyers.forEach(buyer => {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td class="compradores-datos">${buyer._id}</td>
-            <td class="compradores-datos">${buyer.nombre}</td>
-            <td class="compradores-datos">${buyer.email}</td>
-            <td class="compradores-datos">${buyer.telefono}</td>
-            <td class="compradores-datos">${buyer.direccion}</td>
-            <td class="compradores-datos">${buyer.saldo}</td>
-            <td>
-              <button class="compradores-datos" id="button-edit-buyer" onclick="viewBuyer('${buyer._id}')">EDITAR</button>
-              <button class="compradores-datos" id="button-delete-buyer" onclick="deleteBuyer('${buyer._id}')">ELIMINAR</button>
-              <button class="compradores-datos" id="button-buy-products" onclick="productList()">ELIMINAR</button>
-            </td>
-          `;
-          tableBody.appendChild(row);
-        });
-      } catch (error) {
-        console.error("Error fetching buyers:", error);
-      }
+async function fetchBuyers() {
+  try {
+    // Recuperar el token almacenado
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      alert("No se encontró un token. Por favor, inicia sesión nuevamente.");
+      return;
     }
 
-    document.getElementById("button-buy-products").addEventListener("click", function() {
-    window.location.href = "/api/products/list";
-  });
+    // Realizar el fetch con el token en los encabezados
+    const response = await fetch('/api/buyers', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Token': token, // Agregar el token al encabezado
+      },
+    });
+
+    if (!response.ok) throw new Error("Failed to fetch buyers");
+
+    const buyers = await response.json();
+    console.log("Dentro del fetch buyers: " + buyers);
+
+    const tableBody = document.getElementById("buyersTableBody");
+
+    tableBody.innerHTML = "";
+
+    buyers.forEach(buyer => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td class="compradores-datos">${buyer._id}</td>
+        <td class="compradores-datos">${buyer.nombre}</td>
+        <td class="compradores-datos">${buyer.email}</td>
+        <td class="compradores-datos">${buyer.telefono}</td>
+        <td class="compradores-datos">${buyer.direccion}</td>
+        <td class="compradores-datos">${buyer.saldo}</td>
+        <td class="compradores-datos">${buyer.productos}</td>
+        <td>
+          <button class="compradores-datos" id="button-edit-buyer" onclick="viewBuyer('${buyer._id}')">EDITAR</button>
+          <button class="compradores-datos" id="button-delete-buyer" onclick="deleteBuyer('${buyer._id}')">ELIMINAR</button>
+        </td>
+      `;
+      tableBody.appendChild(row);
+    });
+  } catch (error) {
+    console.error("Error fetching buyers:", error);
+  }
+}
+
+
+    
 
     document.getElementById("button-create-buyer").addEventListener("click", function() {
     window.location.href = "/api/buyers/createBuyer";
@@ -172,7 +188,7 @@ tbody tr {
           const response = await fetch(`/api/buyers/${id}`, { method: "DELETE" });
           if (response.ok) {
             alert("Buyer deleted successfully");
-            fetchBuyers(); // Actualizar la lista
+            fetchBuyers(); 
           } else {
             alert("Failed to delete buyer");
           }

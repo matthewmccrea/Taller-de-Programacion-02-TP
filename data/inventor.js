@@ -2,7 +2,6 @@ import { ObjectId } from "mongodb";
 import getConnection from "./connection.js";
 
 export async function getInventors() {
-  console.log("Entrando en el método getInventors");
   const clientmongo = await getConnection();
 
   const inventors = await clientmongo
