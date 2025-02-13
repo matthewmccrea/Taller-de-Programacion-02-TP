@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LISTA DE USUARIOS</title>
+  <style>
+    @import url(https://fonts.googleapis.com/css?family=Noto+Sans);
+    body {
+      font-family: 'Noto Sans', sans-serif;
+      margin: 20px;
+      background-color: #b8cecf;
+    }
+
+    h1 {
+      font-size: 39px;
+      text-align: center;
+      color: #ab4493;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+
+    .sellers-datos {
+      background-color: #f4f4f4;
+    }
+
+    #button-create-seller, #button-edit-seller, #button-delete-seller {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    #button-create-seller {
+      background-color: #4CAF50;
+    }
+
+    #button-create-seller:hover {
+      background-color: #45a049;
+    }
+
+    #button-edit-seller {
+      background-color: #2b36da;
+    }
+
+    #button-edit-seller:hover {
+      background-color: #2b36da;
+    }
+
+    #button-delete-seller {
+      background-color: #b83018;
+    }
+
+    #button-delete-seller:hover {
+      background-color: #b83018;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tbody tr {
+      background-color: whitesmoke;
+    }
+
+    .titulos {
+      background-color: whitesmoke;
+    }
+  </style>
+</head>
+<body>
+  <h1>LISTA DE USUARIOS</h1>
+
+  <button id="button-create-seller" class="button">
+    CREAR USUARIO
+  </button>
+  
+  <table>
+    <thead>
+      <tr>
+        <th class="titulos">ID</th>
+        <th class="titulos">NOMBRE</th>
+        <th class="titulos">CONTRASEÑA</th>
+      </tr>
+    </thead>
+    <tbody id="sellersTableBody">
+
+    </tbody>
+  </table>
+
+  <script>
+
+async function fetchSellers() {
+  try {
+    // Recuperar el token almacenado
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      alert("No se encontró un token. Por favor, inicia sesión nuevamente.");
+      return;
+    }
+
+    // Realizar el fetch con el token en los encabezados
+    const response = await fetch('/api/users', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Token': token, // Agregar el token al encabezado
+      },
+    });
+
+    if (!response.ok) throw new Error("Failed to fetch sellers");
+
+    const users = await response.json();
+    console.log("Dentro del fetch sellers: " + sellers);
+
+    const tableBody = document.getElementById("sellersTableBody");
+    tableBody.innerHTML = "";
+
+    sellers.forEach(seller => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td class="sellers-datos">${users._id}</td>
+        <td class="sellers-datos">${users.email}</td>
+        <td class="sellers-datos">${users.password}</td>
+        <td>
+          <button class="sellers-datos" id="button-edit-seller" onclick="viewSeller('${seller._id}')">EDITAR</button>
+          <button class="sellers-datos" id="button-delete-seller" onclick="deleteSeller('${seller._id}')">ELIMINAR</button>
+        </td>
+      `;
+      tableBody.appendChild(row);
+    });
+  } catch (error) {
+    console.error("Error fetching sellers:", error);
+  }
+}
+
+
+    document.getElementById("button-create-seller").addEventListener("click", function() {
+      window.location.href = "/api/sellers/createSeller";
+    });
+
+   
+
+    fetchSellers();
+  </script>
+</body>
+</html>

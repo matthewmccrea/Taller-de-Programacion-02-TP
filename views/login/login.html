@@ -94,12 +94,14 @@
       </div>
       <button type="submit">Ingresar</button>
       <p class="aviso">* Los campos son obligatorios.</p>
-    </form>
+      <p class="aviso">¿No tienes una cuenta? <a href="register" style="color: #ab4493; font-weight: bold;">Regístrate aquí</a></p>
+          </form>
   </div>
   
   <script>
     document.getElementById("form-login").addEventListener("submit", function (event) {
       event.preventDefault();
+      console.log("Formulario enviado");
   
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;

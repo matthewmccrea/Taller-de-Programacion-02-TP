@@ -69,6 +69,11 @@
       background-color: rgb(43, 198, 226);
       color: white;
     }
+    .button-users {
+      background-color: rgb(226, 43, 217);
+      color: rgb(255, 255, 255);
+    }
+
 
     .carousel {
       
@@ -151,6 +156,7 @@
       <button class="button button-view" onclick="navigateTo('products/list')">Productos</button>
       <button class="button button-playground" style="display: none;" onclick="navigateTo('playground/list')">Playground</button>
       <button class="button button-sellers" onclick="navigateTo('sellers/list')">Vendedores</button>
+      <button class="button button-users" onclick="navigateTo('users/list')">Usuarios</button>
 
 
     </div>
@@ -266,7 +272,7 @@ fetchData();
 
 
     function navigateTo(page) {
-  const token = localStorage.getItem("authToken"); // Recupera el token del localStorage
+  const token = localStorage.getItem("authToken");
 
   if (!token) {
     alert("No se encontró un token. Por favor, inicia sesión nuevamente.");
@@ -292,6 +298,10 @@ fetchData();
         }
         if (page=="sellers/list") {
           window.location.href = `/api/sellers/list?token=${token}`;  
+
+        }
+        if (page=="users/list") {
+          window.location.href = `/api/users/list?token=${token}`;  
 
         }
         

@@ -3,15 +3,15 @@ import jwt from "jsonwebtoken";
 
 export async function auth(req, res, next) {
   try {
-    console.log("Headers:", req.headers);
-    console.log("Cookies:", req.cookies);
-    console.log("Query params:", req.query);
+    //console.log("Headers:", req.headers);
+    //console.log("Cookies:", req.cookies);
+    //console.log("Query params:", req.query);
 
     // Obtiene el token desde los headers o desde los parámetros de la URL
     const authHeader = req.header("Token");
     const token = authHeader || req.query.token; // Prioriza los headers, luego los parámetros de la URL
 
-    console.log("Token recibido:", token);
+    //console.log("Token recibido:", token);
 
     if (!token) {
       return res.status(401).send("Token is required");
