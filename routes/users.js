@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import { addUser, findByCredentials, generateAuthToken, getUsers } from "../data/users.js";
+import { auth} from "../middleware/auth.js";
 
 const router = express.Router();
 const __dirname = path.resolve();
@@ -29,7 +30,7 @@ router.post("/", async (req, res) => {
 });
 
 
- router.get("/list",async(req, res) => {
+ router.get("/list", auth,async(req, res) => {
     
     
     res.sendFile(path.join(__dirname, "views", "users", "listUsers.html"));

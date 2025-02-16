@@ -124,6 +124,9 @@ tbody tr {
 
   <script>
 
+const token = localStorage.getItem("authToken");
+
+
 async function fetchBuyers() {
   try {
     // Recuperar el token almacenado
@@ -152,6 +155,7 @@ async function fetchBuyers() {
     tableBody.innerHTML = "";
 
     buyers.forEach(buyer => {
+      console.log("Buyer ID: ", buyer._id);
       const row = document.createElement("tr");
       row.innerHTML = `
         <td class="compradores-datos">${buyer._id}</td>
@@ -161,7 +165,7 @@ async function fetchBuyers() {
         <td class="compradores-datos">${buyer.direccion}</td>
         <td class="compradores-datos">${buyer.saldo}</td>
         <td>
-          <button class="compradores-datos" id="button-edit-buyer" onclick="viewBuyer('${buyer._id}')">EDITAR</button>
+          <button class="compradores-datos" id="button-edit-buyer" onclick="editBuyer('${buyer._id}')">EDITAR</button>
           <button class="compradores-datos" id="button-delete-buyer" onclick="deleteBuyer('${buyer._id}')">ELIMINAR</button>
         </td>
       `;
@@ -176,27 +180,53 @@ async function fetchBuyers() {
     
 
     document.getElementById("button-create-buyer").addEventListener("click", function() {
-    window.location.href = "/api/buyers/createBuyer";
+    window.location.href = `/api/buyers/createBuyer/?token=${token}`;  
+
   });
 
+ 
+
+  async function editBuyer(id) {
+
+  const token = localStorage.getItem("authToken");
+  if (!token) {
+    alert("No se encontró un token. Por favor, inicia sesión nuevamente.");
+    return;
+  }
+  console.log("Redirigiendo a la URL de edición con id:", id);
+  window.location.href = `/api/buyers/editBuyer/${id}?token=${token}`;
+}
+
+
     async function deleteBuyer(id) {
-        console.log("El id es: "+id)
-      if (confirm("Are you sure you want to delete this buyer?")) {
-        try {
-          const response = await fetch(`/api/buyers/${id}`, { method: "DELETE" });
-          if (response.ok) {
-            alert("Buyer deleted successfully");
-            fetchBuyers(); 
-          } else {
-            alert("Failed to delete buyer");
-          }
-        } catch (error) {
-          console.error("Error deleting buyer:", error);
-        }
+  console.log("El id es: " + id);
+  if (confirm("Are you sure you want to delete this buyer?")) {
+    try {
+      // Llamamos a la ruta DELETE correcta
+      const response = await fetch(`/api/buyers/deleteBuyer/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          token: token, // Envía el token en los headers
+        },
+      });
+
+      if (response.ok) {
+        alert("Buyer deleted successfully");
+        // Aquí puedes actualizar la vista o hacer otra acción después de eliminar el producto
+        fetchBuyers(); // Por ejemplo, volver a cargar la lista de productos
+      } else {
+        alert("Failed to delete buyer");
       }
+      
+    } catch (error) {
+      console.error("Error deleting buyer:", error);
     }
+  }
+}
 
     fetchBuyers();
+    
   </script>
 </body>
 </html>

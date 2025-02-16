@@ -25,7 +25,7 @@ app.use("/api/inventors", inventorRouter);
 app.use("/api/users",userRouter);
 app.use("/api/buyers",auth,buyerRouter);
 app.use("/api/products",auth,productRouter);
-app.use("/api/sellers", sellerRouter);
+app.use("/api/sellers",auth, sellerRouter);
 app.use("/api/sale", saleRouter);
 app.use("/api/login", loginRouter);
 app.use("/api/playground", playgroundRouter);

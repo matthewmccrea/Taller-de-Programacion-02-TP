@@ -159,16 +159,18 @@ async function fetchSellers() {
   }
 }
 
+const token = localStorage.getItem("authToken");
+
 
     document.getElementById("button-create-seller").addEventListener("click", function() {
-      window.location.href = "/api/sellers/createSeller";
+      window.location.href = `/api/sellers/createSeller/?token=${token}`;  
     });
 
     async function deleteSeller(id) {
       console.log("El id es: " + id);
       if (confirm("Are you sure you want to delete this seller?")) {
         try {
-          const response = await fetch(`/api/sellers/${id}`, { method: "DELETE" });
+          const response = await fetch(`/api/sellers/deleteSeller/${id}`, { method: "DELETE" });
           if (response.ok) {
             alert("Seller deleted successfully");
             fetchSellers(); // Actualizar la lista

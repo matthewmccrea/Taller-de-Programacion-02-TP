@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cliente</title>
+  <title>Editar Comprador</title>
   <style>
     @import url(https://fonts.googleapis.com/css?family=Noto+Sans);
 
@@ -41,8 +41,6 @@
       margin: 10px 0;
       padding: 10px;
     }
-
-    
 
     label {
       display: block;
@@ -85,33 +83,29 @@
 </head>
 <body>
   <div class="contact_form">
-    <h1>Creacion de Vendedor</h1>
-    <form action="/api/sellers/createSeller" method="post" id="form-post">
-      <p>
-        <label for="nombre">Nombre <span class="obligatorio">*</span></label>
-        <input type="text" name="nombre" id="nombre" required placeholder="Escribe tu nombre">
-      </p>
-      <p>
-        <label for="email">Email <span class="obligatorio">*</span></label>
-        <input type="email" name="email" id="email" required placeholder="Escribe tu Email">
-      </p>
-      <p>
-        <label for="telefono">Teléfono</label>
-        <input type="tel" name="telefono" id="telefono" placeholder="Escribe tu teléfono">
-      </p>
-      <p>
-        <label for="nombre">Direccion</label>
-        <input type="text" name="direccion" id="website" placeholder="Escribe tu direccion">
-      </p>
-        
-        <button type="submit">Guardar</button>
+    <h1>Edición de Comprador</h1>
+    <form action="/api/buyers/editBuyer" method="post" id="form-post">
+      <input type="hidden" name="id" value="<%= buyer._id %>"> <!-- El ID se pasa aquí -->
+    
+      <label for="nombre">Nombre</label>
+      <input type="text" name="nombre" id="nombre" value="<%= buyer.nombre %>" required placeholder="Nombre">
+
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" value="<%= buyer.email %>" required placeholder="Email">
+
+      <label for="telefono">Teléfono</label>
+      <input type="tel" name="telefono" id="telefono" value="<%= buyer.telefono %>" placeholder="Teléfono">
+
+      <label for="direccion">Dirección</label>
+      <input type="text" name="direccion" id="direccion" value="<%= buyer.direccion %>" placeholder="Dirección">
+
+      <label for="saldo">Saldo</label>
+      <input type="number" name="saldo" id="saldo" value="<%= buyer.saldo %>" step="0.1" placeholder="Saldo">
+
+      <button type="submit">Guardar</button>
       <p class="aviso"><span class="obligatorio">*</span> Los campos son obligatorios.</p>
     </form>
   </div>
-
-
-
-
 
   <script>
     const form = document.getElementById("form-post");
@@ -127,38 +121,39 @@
       }
       
       const method = "POST";
-      const url = "/api/sellers/createSeller";
+      const url = "/api/buyers/editBuyer";
       
       const headers = {
         "Token": token,
         "Content-Type": "application/json",
       };
       
-      const seller = {
+      const buyer = {
+        id: document.querySelector("[name='id']").value,
         nombre: document.getElementById("nombre").value,
         email: document.getElementById("email").value,
         telefono: document.getElementById("telefono").value,
-        direccion: document.getElementById("website").value,
-        
+        direccion: document.getElementById("direccion").value,
+        saldo: document.getElementById("saldo").value,
       };
       
       try {
         const response = await fetch(url, {
           method,
           headers,
-          body: JSON.stringify(seller),
+          body: JSON.stringify(buyer),
         });
         
         if (!response.ok) {
-          alert("Hubo un error al guardar el seller. Por favor, intenta nuevamente.");
+          alert("Hubo un error al actualizar el comprador. Por favor, intenta nuevamente.");
           return;
         }
         
-        alert("Seller guardado correctamente.");
-        window.location.href = `/api/sellers/list?token=${token}`;
+        alert("Comprador actualizado correctamente.");
+        window.location.href = `/api/buyers/list?token=${token}`;
       } catch (error) {
         console.error("Error al enviar el formulario:", error);
-        alert("Hubo un error al guardar el seller. Por favor, intenta nuevamente.");
+        alert("Hubo un error al actualizar el comprador. Por favor, intenta nuevamente.");
       }
     });
   </script>

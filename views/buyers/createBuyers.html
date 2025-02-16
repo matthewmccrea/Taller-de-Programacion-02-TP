@@ -114,5 +114,59 @@
       <p class="aviso"><span class="obligatorio">*</span> Los campos son obligatorios.</p>
     </form>
   </div>
+
+
+
+
+
+  <script>
+    const form = document.getElementById("form-post");
+    
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      
+      const token = localStorage.getItem("authToken");
+      
+      if (!token) {
+        alert("No se encontró un token. Por favor, inicia sesión nuevamente.");
+        return;
+      }
+      
+      const method = "POST";
+      const url = "/api/buyers/createBuyer";
+      
+      const headers = {
+        "Token": token,
+        "Content-Type": "application/json",
+      };
+      
+      const buyer = {
+        nombre: document.getElementById("nombre").value,
+        email: document.getElementById("email").value,
+        telefono: document.getElementById("telefono").value,
+        descripcion: document.getElementById("website").value,
+        saldo: document.getElementById("saldo").value,
+      };
+      
+      try {
+        const response = await fetch(url, {
+          method,
+          headers,
+          body: JSON.stringify(buyer),
+        });
+        
+        if (!response.ok) {
+          alert("Hubo un error al guardar el buyer. Por favor, intenta nuevamente.");
+          return;
+        }
+        
+        alert("Buyer guardado correctamente.");
+        window.location.href = `/api/buyers/list?token=${token}`;
+      } catch (error) {
+        console.error("Error al enviar el formulario:", error);
+        alert("Hubo un error al guardar el buyer. Por favor, intenta nuevamente.");
+      }
+    });
+  </script>
 </body>
 </html>

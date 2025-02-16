@@ -12,6 +12,35 @@ export async function getBuyers() {
     return buyers;
   }
 
+
+  export async function updateBuyer(buyer) {
+    
+  
+    const clientmongo = await getConnection();
+    
+
+    const result = await clientmongo
+      .db("sample_tp2")
+      .collection("buyers")
+      .updateOne(
+        { _id: new ObjectId(buyer.id) }, 
+        {
+          $set: {
+            nombre: buyer.nombre,
+            email: buyer.email,
+            telefono: buyer.telefono,
+            direccion: buyer.direccion,
+            saldo: buyer.saldo
+          }
+        }
+      );
+    
+    
+    return result;
+  }
+  
+
+
   export async function getBuyer(id) {
     const clientmongo = await getConnection();
   

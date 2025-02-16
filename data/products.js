@@ -56,5 +56,22 @@ export async function getProducts() {
         console.error("Error al procesar el producto:", error);
       }
     }
+
+    export async function updateProduct(id, updatedData) {
+      
+        const clientmongo = await getConnection();
+        // Actualizamos el producto con la nueva información
+        const result = await clientmongo
+          .db("sample_tp2")
+          .collection("products")
+          .updateOne(
+            { _id: new ObjectId(id) },
+            {
+              $set: updatedData, // Esto establece los campos a actualizar
+            }
+          );
+      
+    }
     
+
   

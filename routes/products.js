@@ -1,5 +1,5 @@
 import express from "express";
-import { getProducts, getProduct, addProduct, deleteProduct } from "../data/products.js";
+import { getProducts, getProduct, addProduct, deleteProduct, updateProduct } from "../data/products.js";
 import { auth } from "../middleware/auth.js";
 import path from "path";
 
@@ -96,6 +96,24 @@ router.get("/", async (req, res) => {
     res.json(product);
   });
 
+// Ruta para editar un producto
+router.post("/editProduct", async (req, res) => {
+  try {
+    const { _id, nombre, descripcion, precio, categoria, imagenes } = req.body;
+    
+    // Llamar a la función para actualizar el producto en la base de datos
+    const updatedProduct = await updateProduct(_id, { nombre, descripcion, precio, categoria, imagenes });
+
+    if (updatedProduct) {
+      res.redirect("/api/products/list"); // Redirigir a la lista de productos
+    } else {
+      res.status(404).send("Producto no encontrado");
+    }
+  } catch (error) {
+    console.error("Error al actualizar el producto:", error);
+    res.status(500).send("Error al actualizar el producto");
+  }
+});
 
  
 

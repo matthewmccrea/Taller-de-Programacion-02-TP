@@ -126,7 +126,7 @@
       }
       
       const method = "POST";
-      const url = "<%= product ? '/api/products/editProduct' : '/api/products/createProduct' %>";
+      const url = `<%= product ? '/api/products/editProduct/' + product._id : '/api/products/createProduct' %>`;
       
       const headers = {
         "Token": token,
