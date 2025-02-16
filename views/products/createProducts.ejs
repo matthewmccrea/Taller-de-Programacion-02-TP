@@ -120,10 +120,67 @@
         <label for="imagenes">Imagen</label>
         <input type="text" name="imagenes" id="imagenes" placeholder="Ruta de la imagen" value="<%= product ? product.imagenes : '' %>">
       </p>
+      <!-- Agrega un input oculto para el token -->
 
       <button type="submit"><%= product ? 'Actualizar Producto' : 'Crear Producto' %></button>
     </form>
   </div>
+
+
+  <script>
+    const form = document.getElementById("form-post");
+  
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+  
+      const token = localStorage.getItem("authToken");
+  
+      if (!token) {
+        alert("No se encontró un token. Por favor, inicia sesión nuevamente.");
+        return;
+      }
+  
+      const method = "<%= product ? 'POST' : 'POST' %>";  // La lógica del método debería ser la misma para la creación o edición
+      const url = "<%= product ? '/api/products/editProduct' : '/api/products/createProduct' %>";
+  
+      const headers = {
+        "Token": token,
+        "Content-Type": "application/json", // Asegúrate de que el contenido es JSON
+      };
+  
+      // Creamos un objeto directamente con los datos del formulario
+      const product = {
+        nombre: document.getElementById("nombre").value,
+        descripcion: document.getElementById("descripcion").value,
+        precio: document.getElementById("precio").value,
+        categoria: document.getElementById("categoria").value,
+        // Agrega más campos si los tienes
+      };
+  
+      const body = JSON.stringify(product); // Convertimos el objeto a JSON
+  
+      try {
+        const response = await fetch(url, {
+          method,
+          headers,
+          body,
+        });
+  
+        if (!response.ok) {
+          alert("Hubo un error al guardar el producto. Por favor, intenta nuevamente.");
+          return;
+        }
+  
+        alert("Producto guardado correctamente.");
+        window.location.href = "/products";
+      } catch (error) {
+        console.error("Error al enviar el formulario:", error);
+        alert("Hubo un error al guardar el producto. Por favor, intenta nuevamente.");
+      }
+    });
+  </script>
+  
+    
 </body>
 
 </html>

@@ -34,11 +34,11 @@
       text-align: left;
     }
 
-    .sellers-datos {
+    .users-datos {
       background-color: #f4f4f4;
     }
 
-    #button-create-seller, #button-edit-seller, #button-delete-seller {
+    #button-create-user, #button-edit-users, #button-delete-users {
       padding: 10px 20px;
       border: none;
       border-radius: 5px;
@@ -47,27 +47,25 @@
       text-transform: uppercase;
     }
 
-    #button-create-seller {
-      background-color: #4CAF50;
-    }
+    
 
-    #button-create-seller:hover {
+    #button-create-users:hover {
       background-color: #45a049;
     }
 
-    #button-edit-seller {
+    #button-edit-users {
       background-color: #2b36da;
     }
 
-    #button-edit-seller:hover {
+    #button-edit-users:hover {
       background-color: #2b36da;
     }
 
-    #button-delete-seller {
+    #button-delete-users {
       background-color: #b83018;
     }
 
-    #button-delete-seller:hover {
+    #button-delete-users:hover {
       background-color: #b83018;
     }
 
@@ -86,10 +84,6 @@
 </head>
 <body>
   <h1>LISTA DE USUARIOS</h1>
-
-  <button id="button-create-seller" class="button">
-    CREAR USUARIO
-  </button>
   
   <table>
     <thead>
@@ -97,16 +91,18 @@
         <th class="titulos">ID</th>
         <th class="titulos">NOMBRE</th>
         <th class="titulos">CONTRASEÑA</th>
+        <th class="titulos">ACCIONES</th>
+
       </tr>
     </thead>
-    <tbody id="sellersTableBody">
+    <tbody id="usersTableBody">
 
     </tbody>
   </table>
 
   <script>
 
-async function fetchSellers() {
+async function fetchUsers() {
   try {
     // Recuperar el token almacenado
     const token = localStorage.getItem("authToken");
@@ -124,23 +120,23 @@ async function fetchSellers() {
       },
     });
 
-    if (!response.ok) throw new Error("Failed to fetch sellers");
+    if (!response.ok) throw new Error("Failed to fetch users");
 
     const users = await response.json();
-    console.log("Dentro del fetch sellers: " + sellers);
+    console.log("Dentro del fetch users: " + users);
 
-    const tableBody = document.getElementById("sellersTableBody");
+    const tableBody = document.getElementById("usersTableBody");
     tableBody.innerHTML = "";
 
-    sellers.forEach(seller => {
+    users.forEach(users => {
       const row = document.createElement("tr");
       row.innerHTML = `
-        <td class="sellers-datos">${users._id}</td>
-        <td class="sellers-datos">${users.email}</td>
-        <td class="sellers-datos">${users.password}</td>
+        <td class="users-datos">${users._id}</td>
+        <td class="users-datos">${users.email}</td>
+        <td class="users-datos">${users.password}</td>
         <td>
-          <button class="sellers-datos" id="button-edit-seller" onclick="viewSeller('${seller._id}')">EDITAR</button>
-          <button class="sellers-datos" id="button-delete-seller" onclick="deleteSeller('${seller._id}')">ELIMINAR</button>
+          <button class="users-datos" id="button-edit-users" onclick="viewUser('${users._id}')">EDITAR</button>
+          <button class="users-datos" id="button-delete-users" onclick="deleteUser('${users._id}')">ELIMINAR</button>
         </td>
       `;
       tableBody.appendChild(row);
@@ -151,13 +147,11 @@ async function fetchSellers() {
 }
 
 
-    document.getElementById("button-create-seller").addEventListener("click", function() {
-      window.location.href = "/api/sellers/createSeller";
-    });
+    
 
    
 
-    fetchSellers();
+    fetchUsers();
   </script>
 </body>
 </html>

@@ -43,29 +43,15 @@ export async function getProducts() {
   
     export async function addProduct(product) {
       try {
-        // Convertir el _id en un ObjectId
-        let idProduct = new ObjectId(product._id);
-    
-        // Obtener el producto existente de la base de datos
-        let existingProduct = await getProduct(idProduct);  // Asegúrate de usar await
-    
-        if (existingProduct) {
-          // Si el producto existe, lo eliminamos
-          const clientmongo = await getConnection();
+        product._id = new ObjectId();
+        const clientmongo = await getConnection();
+         
           await clientmongo
             .db("sample_tp2")
             .collection("products")
-            .deleteOne({ _id: idProduct });
-    
-          // Insertar el nuevo producto
-          await clientmongo
-            .db("sample_tp2")
-            .collection("products")
-            .insertOne(product);  // Aquí insertas el nuevo producto
+            .insertOne(product);  
           console.log("Producto reemplazado correctamente");
-        } else {
-          console.log("Producto no encontrado para reemplazar");
-        }
+         
       } catch (error) {
         console.error("Error al procesar el producto:", error);
       }

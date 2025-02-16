@@ -1,6 +1,6 @@
 import express from "express";
 import path from "path";
-import { addUser, findByCredentials, generateAuthToken } from "../data/users.js";
+import { addUser, findByCredentials, generateAuthToken, getUsers } from "../data/users.js";
 
 const router = express.Router();
 const __dirname = path.resolve();
@@ -15,6 +15,11 @@ router.post("/deleteUser", async (req, res) => {
   }
   res.send(result);
 });
+
+router.get("/", async (req, res) => {
+    const users = await getUsers();
+    res.json(users);
+  });
 
 router.post("/", async (req, res) => {
   console.log("Estoy dentro del post");

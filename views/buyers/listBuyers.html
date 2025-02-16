@@ -114,7 +114,6 @@ tbody tr {
         <th class="titulos">TELEFONO</th>
         <th class="titulos">DIRECCION</th>
         <th class="titulos">SALDO</th>
-        <th class="titulos">PRODUCTOS</th>
         <th class="titulos">ACCIONES</th>
       </tr>
     </thead>
@@ -161,7 +160,6 @@ async function fetchBuyers() {
         <td class="compradores-datos">${buyer.telefono}</td>
         <td class="compradores-datos">${buyer.direccion}</td>
         <td class="compradores-datos">${buyer.saldo}</td>
-        <td class="compradores-datos">${buyer.productos}</td>
         <td>
           <button class="compradores-datos" id="button-edit-buyer" onclick="viewBuyer('${buyer._id}')">EDITAR</button>
           <button class="compradores-datos" id="button-delete-buyer" onclick="deleteBuyer('${buyer._id}')">ELIMINAR</button>

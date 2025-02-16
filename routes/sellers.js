@@ -4,6 +4,7 @@ import { getSellers } from "../data/sellers.js";
 
 const router = express.Router();
 const __dirname = path.resolve();
+
 router.get("/", async (req, res) => {
     const sellers = await getSellers();
     res.json(sellers);
