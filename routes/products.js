@@ -64,8 +64,8 @@ router.post("/createProduct", async (req, res) => {
     const product = req.body;
      
       const result = await addProduct(product); 
-        //res.redirect("/api/products/listProducts");         
-      res.sendFile(path.join(__dirname, "views", "products", "listProducts.html"));
+        res.redirect("/api/products/list");         
+      //res.sendFile(path.join(__dirname, "views", "products", "listProducts.html"));
 
 
   } catch (error) {

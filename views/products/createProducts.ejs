@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= product ? 'Editar Producto' : 'Crear Producto' %></title>
   <style>
-   
-    
     @import url(https://fonts.googleapis.com/css?family=Noto+Sans);
 
     body {
@@ -74,26 +70,17 @@
       margin-bottom: 20px;
     }
 
-    p.aviso {
-      font-size: 13px;
-      color: #0e0e0e;
-      text-align: center;
-    }
-
     .obligatorio {
       color: #ab4493;
     }
   </style>
-
 </head>
 <body>
   <div class="contact_form">
     <h1><%= product ? 'Editar Producto' : 'Crear Producto' %></h1>
     <form action="/api/products/editProduct" method="post" id="form-post">
-      
       <% if (product) { %>
-        <!-- Campo oculto para enviar el _id del producto -->
-        <input type="hidden" name="_id" value="<%= product._id %>">  <!-- Se pasa como cadena -->
+        <input type="hidden" name="_id" value="<%= product._id %>">
       <% } %>
 
       <p>
@@ -120,67 +107,58 @@
         <label for="imagenes">Imagen</label>
         <input type="text" name="imagenes" id="imagenes" placeholder="Ruta de la imagen" value="<%= product ? product.imagenes : '' %>">
       </p>
-      <!-- Agrega un input oculto para el token -->
 
       <button type="submit"><%= product ? 'Actualizar Producto' : 'Crear Producto' %></button>
     </form>
   </div>
 
-
   <script>
     const form = document.getElementById("form-post");
-  
+    
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-  
+      
       const token = localStorage.getItem("authToken");
-  
+      
       if (!token) {
         alert("No se encontró un token. Por favor, inicia sesión nuevamente.");
         return;
       }
-  
-      const method = "<%= product ? 'POST' : 'POST' %>";  // La lógica del método debería ser la misma para la creación o edición
+      
+      const method = "POST";
       const url = "<%= product ? '/api/products/editProduct' : '/api/products/createProduct' %>";
-  
+      
       const headers = {
         "Token": token,
-        "Content-Type": "application/json", // Asegúrate de que el contenido es JSON
+        "Content-Type": "application/json",
       };
-  
-      // Creamos un objeto directamente con los datos del formulario
+      
       const product = {
         nombre: document.getElementById("nombre").value,
         descripcion: document.getElementById("descripcion").value,
         precio: document.getElementById("precio").value,
         categoria: document.getElementById("categoria").value,
-        // Agrega más campos si los tienes
       };
-  
-      const body = JSON.stringify(product); // Convertimos el objeto a JSON
-  
+      
       try {
         const response = await fetch(url, {
           method,
           headers,
-          body,
+          body: JSON.stringify(product),
         });
-  
+        
         if (!response.ok) {
           alert("Hubo un error al guardar el producto. Por favor, intenta nuevamente.");
           return;
         }
-  
+        
         alert("Producto guardado correctamente.");
-        window.location.href = "/products";
+        window.location.href = `/api/products/list?token=${token}`;
       } catch (error) {
         console.error("Error al enviar el formulario:", error);
         alert("Hubo un error al guardar el producto. Por favor, intenta nuevamente.");
       }
     });
   </script>
-  
-    
 </body>
-
 </html>
