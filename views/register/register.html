@@ -114,17 +114,25 @@
 
       
   
-      // Hacer la solicitud de registro
       fetch("/api/register", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "same-origin",
-      })
-      
-    });
+  method: "POST",
+  body: JSON.stringify({ email, password }),
+  headers: {
+    "Content-Type": "application/json",
+  },
+  credentials: "same-origin",
+})
+  .then((response) => {
+    if (response.ok) {
+      window.location.href = "/api/login"; 
+    } else {
+      return response.text().then((error) => {
+        alert(error); 
+      });
+    }
+  })
+  .catch((error) => console.error("Error en el registro:", error));
+});
   </script>
 </body>
 </html>

@@ -157,7 +157,6 @@ async function fetchProducts() {
           <img src="/${product.imagenes}" alt="${product.nombre}" style="width: 100px; height: auto;">
         </td>
         <td>
-          <button class="productos-datos" id="button-edit-product" onclick="editProduct('${product._id}')">EDITAR</button>
           <button class="productos-datos" id="button-delete-product" onclick="deleteProduct('${product._id}')">ELIMINAR</button>
         </td>
       `;
@@ -188,19 +187,17 @@ async function deleteProduct(productId) {
   console.log("El id es: " + productId);
   if (confirm("Are you sure you want to delete this product?")) {
     try {
-      // Llamamos a la ruta DELETE correcta
       const response = await fetch(`/api/products/deleteProduct/${productId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          token: token, // Envía el token en los headers
+          token: token, 
         },
       });
 
       if (response.ok) {
         alert("Product deleted successfully");
-        // Aquí puedes actualizar la vista o hacer otra acción después de eliminar el producto
-        fetchProducts(); // Por ejemplo, volver a cargar la lista de productos
+        fetchProducts(); 
       } else {
         alert("Failed to delete product");
       }

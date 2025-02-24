@@ -1,6 +1,6 @@
 import express from "express";
 import path from "path";
-import { addUser, findByCredentials, generateAuthToken, getUsers } from "../data/users.js";
+import { addUser, findByCredentials, generateAuthToken, getUsers, getUser, deleteUser } from "../data/users.js";
 import { auth} from "../middleware/auth.js";
 
 const router = express.Router();
@@ -58,6 +58,27 @@ router.post("/login", async (req, res) => {
       message: "Credenciales inválidas. Intente nuevamente.",
       redirectUrl: "/login",
     });
+  }
+});
+
+
+// ENDPOINT PARA ELIMINAR UN PRODUCTO POR ID
+router.delete("/deleteUser/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    console.log("El id del user a eliminar es:", userId);
+
+    // Aquí llamarías a la función para eliminar el producto desde la capa de datos
+    const result = await deleteUser(userId);
+
+    if (result) {
+      res.status(200).json({ message: "User eliminado correctamente" });
+    } else {
+      res.status(404).json({ message: "User no encontrado" });
+    }
+  } catch (error) {
+    console.error("Error al eliminar el User:", error);
+    res.status(500).send("Error al eliminar el user");
   }
 });
 

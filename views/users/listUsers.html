@@ -135,7 +135,6 @@ async function fetchUsers() {
         <td class="users-datos">${users.email}</td>
         <td class="users-datos">${users.password}</td>
         <td>
-          <button class="users-datos" id="button-edit-users" onclick="viewUser('${users._id}')">EDITAR</button>
           <button class="users-datos" id="button-delete-users" onclick="deleteUser('${users._id}')">ELIMINAR</button>
         </td>
       `;
@@ -149,7 +148,31 @@ async function fetchUsers() {
 
     
 
-   
+async function deleteUser(userId) {
+  const token = localStorage.getItem("authToken");
+
+  console.log("El id es: " + userId);
+  if (confirm("Are you sure you want to delete this user?")) {
+    try {
+      const response = await fetch(`/api/users/deleteUser/${userId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          token: token, 
+        },
+      });
+
+      if (response.ok) {
+        alert("User deleted successfully");
+        fetchUsers();
+      } else {
+        alert("Failed to delete user");
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  }
+}
 
     fetchUsers();
   </script>

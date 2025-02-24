@@ -103,10 +103,7 @@
         <input type="text" name="categoria" id="categoria" placeholder="Escribe la categoría" value="<%= product ? product.categoria : '' %>">
       </p>
 
-      <p>
-        <label for="imagenes">Imagen</label>
-        <input type="text" name="imagenes" id="imagenes" placeholder="Ruta de la imagen" value="<%= product ? product.imagenes : '' %>">
-      </p>
+      
 
       <button type="submit"><%= product ? 'Actualizar Producto' : 'Crear Producto' %></button>
     </form>

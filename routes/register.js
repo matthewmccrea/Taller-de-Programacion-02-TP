@@ -25,8 +25,7 @@ router.post("/", async(req,res)=>{
 
 
     if (createdUser!=null){
-    res.sendFile(path.join(__dirname, "views", "login", "login.html"));
-    }
+        res.send("Usuario creado correctamente");    }
     else{
         res.send("Error al crear usuario")
     }

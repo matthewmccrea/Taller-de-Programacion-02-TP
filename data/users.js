@@ -17,6 +17,18 @@ export async function getUsers() {
   }
 
 
+  export async function getUser(id) {
+  
+      const clientmongo = await getConnection();
+    
+      const user = await clientmongo
+        .db("sample_tp2")
+        .collection("users")
+        .findOne({ _id: new ObjectId(id) });
+    
+      return user;
+    }
+
 export async function addUser(user) {
   user.email = user.email.toLowerCase();
   user.password = await bcryptjs.hash(user.password, 10);
@@ -32,6 +44,22 @@ export async function addUser(user) {
     .insertOne(user);
   return result;
 }
+
+
+ export async function deleteUser(id) {
+      const user = getUser(id);
+      for (const key in user) {
+        if (product.hasOwnProperty(key)) {
+        }
+    }
+  
+      const clientmongo = await getConnection();
+      const result = await clientmongo
+        .db("sample_tp2")
+        .collection("users")
+        .deleteOne({ _id: new ObjectId(id) });
+      return result;
+    }
 
 export async function findByCredentials(email, password) {
   console.log("Email: "+email + " Password: "+password);
